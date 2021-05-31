@@ -4,7 +4,7 @@ public interface Rentable {
 
 	public boolean isSafeRent();
 	
-	public double getRentPrice(int rent);
+	public double getRentPrice(int amountDays);
 	
-	public void rentProduct(int product);
+	public void rentProduct(int amountDays);
 }

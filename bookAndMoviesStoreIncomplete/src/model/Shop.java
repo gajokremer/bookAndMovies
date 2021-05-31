@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -51,8 +52,8 @@ public class Shop {
 	public Shop(String aName) {
 		name = aName;
 		catalog = new ArrayList<Product>();
-		totalSales=0;
-		totalRents=0;
+		totalSales = 0;
+		totalRents = 0;
 		
 	}
 
@@ -70,8 +71,27 @@ public class Shop {
 	 * @return una cadena informando si el producto fue agregado al catalogo o un mensaje
 	 * informando que el producto ya existe. 
 	 */
-	public String addProduct(String code,String name, int units, double price, ProductType type) {
-		return "";
+	public String addProduct(String code, String name, int units, double price, ProductType type) {
+		
+		String result = "";
+		
+		boolean codeNotThere = false;
+		
+		for(int i = 0; i < catalog.size() && !codeNotThere; i++) {
+			
+			if(catalog.get(i).getCode() != code) {
+				
+				catalog.add(new ProductForSale(code, name, units, price, type));
+				result = "\n--Product for sale added successfully";
+				codeNotThere = true;
+				
+			}else {
+				
+				result = "\n--Code already exists, no changes made";
+			}
+		}
+		
+		return result;
 	}
 	
 
@@ -89,7 +109,27 @@ public class Shop {
 	 * informando que el producto ya existe. 
 	 */
 	public String addProduct(String code, String name, double price, ProductType type) {
-		return "";
+		
+		String result = "";
+		
+		boolean codeNotThere = false;
+		
+		for(int i = 0; i < catalog.size() && !codeNotThere; i++) {
+			
+			if(catalog.get(i).getCode() != code) {
+				
+//				catalog.add(new ProductForRent(code, name, price, type));
+				catalog.add(new ProductForRent(code, name, price, type));
+				result = "\n--Product for rent added successfully";
+				codeNotThere = true;
+				
+			}else {
+				
+				result = "\n--Code already exists, no changes made";
+			}
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -98,7 +138,15 @@ public class Shop {
 	 * @return cadena con la informacion de los productos
 	 */
 	public String showCatalog() {
-		return "";
+		
+		String result = "";
+		
+		for(int i = 0; i < catalog.size(); i++) {
+			
+			result += "\n" + catalog.get(i).getInformation();
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -111,7 +159,19 @@ public class Shop {
 	 * no contiene un producto con ese c0digo
 	 */
 	public Product findProduct(String code) {
-		Product p=null;
+		
+		Product p = null;
+		
+		boolean sameCode = false;
+		
+		for(int i = 0; i < catalog.size() && !sameCode; i++) {
+			
+			if(catalog.get(i).getCode().equalsIgnoreCase(code)) {
+				
+				p = catalog.get(i);
+				sameCode = true;
+			}
+		}
 		
 		return p;
 	}
@@ -131,14 +191,20 @@ public class Shop {
 	 * RENT si es para alquilar
 	 */
 	public int getOperation(String code) {
-		int operation= -1;
+		
+		int operation = -1;
+		
 		Product p = findProduct(code);
 
 		if(p instanceof Saleable) {
+			
 			operation=SALE;
+			
 		}else if (p instanceof Rentable){
+			
 			operation=RENT;
 		}
+		
 		return operation;
 		
 	}
@@ -152,13 +218,15 @@ public class Shop {
 	 * @return mensaje de respuesta de la venta
 	 */
 	public String saleProduct(String cod, int units, double discount) {
-		String answer="";
+		
+		String answer = "";
 		
 		Product p = findProduct(cod);
 		answer= sale((Saleable)p, units, discount);
-		return answer;
 		
+		return answer;
 	}
+	
 	/**
 	 * Metodo que recibe los datos para hacer un alquiler y llama al <br>
 	 * metodo que se encarga de hacer el proceso de alquiler asegurándose <br>
@@ -168,12 +236,13 @@ public class Shop {
 	 * @return mensaje de respuesta del alquiler
 	 */
 	public String rentProduct(String cod, int days) {
-		String answer="";
+		
+		String answer = "";
 		
 		Product p = findProduct(cod);
 		answer= rent((Rentable)p, days);
-		return answer;
 		
+		return answer;
 	}	
 
 	/**
@@ -205,8 +274,25 @@ public class Shop {
 		 * si no: 
 		 *  - Se muestra un mensaje reportando el error.
 		 */
-		return "";
 		
+		String result = "";
+		double subtotal, totalPrice, finalPrice;
+		
+		if(p.isSafeSale(units) == true) {
+			
+			subtotal = p.getSalePrice(units);
+			totalPrice = p.applyExtraDiscount(subtotal, discount);
+			finalPrice = p.calculateTax(totalPrice, TAX_IVA);
+			totalSales++;
+			
+			result += "\nProduct successfully sold: " + finalPrice;
+			
+		}else {
+			
+			result += "\nError: There are no units left";
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -233,7 +319,22 @@ public class Shop {
 		 * si no: 
 		 *  - Se muestra un mensaje reportando el error.
 		 */
-		return"";
+		
+		String result = "";
+		double price;
+		
+		if(p.isSafeRent() == true) {
+			
+			price = p.getRentPrice(days);
+			p.rentProduct(days);
+			result += "\nProduct successfully sold: " + price;
+			
+		}else {
+			
+			result += "\nError: Product is already rented";
+		}
+		
+		return result;
 	}
 	
 

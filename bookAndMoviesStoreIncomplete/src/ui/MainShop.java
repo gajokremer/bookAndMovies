@@ -1,8 +1,9 @@
-package ui;
+ package ui;
 
 import java.util.Scanner;
 
 import model.Shop;
+import model.ProductType;
 
 /**
  * 
@@ -126,14 +127,70 @@ public class MainShop {
 		sc.nextLine();
 		
 		return number;
-		
-		
 	}
 	
 	public void addProductCatalog() {
 		
+		System.out.println("\n *** Add a product to catalog *** \n" );
+		
+		String code, name;
+		int units = 0;
+		double price;
+		ProductType type = null;
+		
+		System.out.print("Is this product for rent or for sale?: ");
+		String answer = sc.nextLine().toUpperCase();
+		
+		System.out.print("Product code: ");
+		code = sc.nextLine();
+		
+		System.out.print("Product name: ");
+		name = sc.nextLine();
+		
+		if(answer.equalsIgnoreCase("Sale")) {
+			
+			System.out.print("Product units: ");
+			units = sc.nextInt();
+			sc.nextLine();
+		}
+		
+		System.out.print("Product price: ");
+		price = sc.nextDouble();
+		
+		System.out.print("Product type: ");
+		String temp = sc.nextLine().toUpperCase();
+		sc.nextLine();
+		
+//		type = ProductType.valueOf(temp.toUpperCase());
+		
+		switch(temp) {
+		
+		case "BOOK":
+			type = ProductType.BOOK;
+			break;
+			
+		case "MAGAZINE":
+			type = ProductType.MAGAZINE;
+			break;
+			
+		case "DVD":
+			type = ProductType.DVD_MOVIE;
+			break;
+			
+		case "DONWLOADN":
+			type = ProductType.DOWNLOAD_MOVIE;
+			break;
+		}
+		
+		switch(answer) {
+		
+		case "RENT":
+			shop.addProduct(code, name, price, type);			
+			break;
+			
+		case "SALE":
+			shop.addProduct(code, name, units, price, type);
+			break;
+		}
 	}
-	
-	
-
 }

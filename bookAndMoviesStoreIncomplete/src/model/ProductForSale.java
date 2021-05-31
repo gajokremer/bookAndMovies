@@ -25,28 +25,58 @@ public class ProductForSale extends Product implements Saleable {
 	
 	//INHERITED ABSTRACT METHODS
 	@Override
-	public double getSalePrice(int salePrice) {
-		return 0;
+	public double getSalePrice(int units) {
+		
+		Double result = (units * price) - discount;
+		
+		return result;
 	}
 
 	@Override
-	public boolean isSafeSale(int option) {
-		return false;
+	public boolean isSafeSale(int units) {
+		
+		boolean result = false;
+		
+		if(units > 0) {
+			
+			result = true;
+		}
+		
+		return result;
 	}
-
-	@Override
-	public double applyExtraDiscount(double price, double discount) {
-		return 0;
+	
+	@Override	
+	public double applyExtraDiscount(double subtotal, double percentageDiscount) {
+		
+//		double result = subtotal - percentageDiscount;
+		
+		double result;
+		
+		double discount = subtotal * percentageDiscount;
+		
+		result = subtotal - discount;
+		
+		return result;
 	}
-
+	
 	@Override
-	public double calculateTax(double price, double tax) {
-		return 0;
+	public double calculateTax(double totalPrice, double percentage) {
+		
+		double result = totalPrice + percentage;
+		
+		return result;
 	}
 
 	@Override
 	public String getInformation() {
-		return null;
+		
+		String info = 
+			"\nCode: " + getCode() + 
+			"\nName: " + getName() + 
+			"\nUnits: " + getUnits() + 
+			"\nPrice: " + getPrice() + 
+			"\nType: " + getType();
+		
+		return info;
 	}
-
 }

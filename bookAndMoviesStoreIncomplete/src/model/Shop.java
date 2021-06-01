@@ -75,21 +75,23 @@ public class Shop {
 		
 		String result = "";
 		
-		boolean codeNotThere = false;
+//		boolean codeNotThere = false;
+//		
+//		for(int i = 0; i < catalog.size() && !codeNotThere; i++) {
+//			
+//			if(!catalog.get(i).getCode().equalsIgnoreCase(code)) {
+//				
+//				catalog.add(new ProductForSale(code, name, units, price, type));
+//				result = "\n--Product for sale added successfully";
+//				codeNotThere = true;	
+//				
+//			}else {
+//				
+//				result = "\n--Code already exists, no changes made";
+//			}
+//		}
 		
-		for(int i = 0; i < catalog.size() && !codeNotThere; i++) {
-			
-			if(catalog.get(i).getCode() != code) {
-				
-				catalog.add(new ProductForSale(code, name, units, price, type));
-				result = "\n--Product for sale added successfully";
-				codeNotThere = true;
-				
-			}else {
-				
-				result = "\n--Code already exists, no changes made";
-			}
-		}
+		catalog.add(new ProductForSale(code, name, units, price, type));
 		
 		return result;
 	}
@@ -112,22 +114,23 @@ public class Shop {
 		
 		String result = "";
 		
-		boolean codeNotThere = false;
-		
-		for(int i = 0; i < catalog.size() && !codeNotThere; i++) {
-			
-			if(catalog.get(i).getCode() != code) {
-				
+//		boolean codeNotThere = false;
+//		
+//		for(int i = 0; i < catalog.size() && !codeNotThere; i++) {
+//			
+//			if(!catalog.get(i).getCode().equalsIgnoreCase(code)) {
+//				
 //				catalog.add(new ProductForRent(code, name, price, type));
-				catalog.add(new ProductForRent(code, name, price, type));
-				result = "\n--Product for rent added successfully";
-				codeNotThere = true;
-				
-			}else {
-				
-				result = "\n--Code already exists, no changes made";
-			}
-		}
+//				result = "\n--Product for rent added successfully";
+//				codeNotThere = true;	
+//				
+//			}else {
+//				
+//				result = "\n--Code already exists, no changes made";
+//			}
+//		}
+		
+		catalog.add(new ProductForRent(code, name, price, type));
 		
 		return result;
 	}
@@ -140,10 +143,13 @@ public class Shop {
 	public String showCatalog() {
 		
 		String result = "";
-		
-		for(int i = 0; i < catalog.size(); i++) {
-			
-			result += "\n" + catalog.get(i).getInformation();
+				
+		if(catalog.size() != 0) {
+						
+			for(int i = 0; i < catalog.size(); i++) {
+				
+				result += "\n" + catalog.get(i).getInformation();
+			}
 		}
 		
 		return result;

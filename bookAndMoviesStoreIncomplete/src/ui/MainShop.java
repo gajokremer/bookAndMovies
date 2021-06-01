@@ -115,7 +115,7 @@ public class MainShop {
 	}
 
 	public int showMenuAndReadInput() {
-		System.out.println("*** Welcome to the "+ shop.getName() +  " ***\n");
+		System.out.println("\n*** Welcome to the "+ shop.getName() +  " ***\n");
 		System.out.println("Please, select one option:\n"+
 							"(-1) For running the scenario \n"+
 							"(1) For adding a product to the catalog \n"+
@@ -158,30 +158,31 @@ public class MainShop {
 		price = sc.nextDouble();
 		
 		System.out.print("Product type: ");
-		String temp = sc.nextLine().toUpperCase();
+		String temp = sc.nextLine();
 		sc.nextLine();
 		
 //		type = ProductType.valueOf(temp.toUpperCase());
 		
-		switch(temp) {
-		
-		case "BOOK":
+		if(temp.equalsIgnoreCase("Book")) {
+			
 			type = ProductType.BOOK;
-			break;
-			
-		case "MAGAZINE":
-			type = ProductType.MAGAZINE;
-			break;
-			
-		case "DVD":
-			type = ProductType.DVD_MOVIE;
-			break;
-			
-		case "DONWLOADN":
-			type = ProductType.DOWNLOAD_MOVIE;
-			break;
 		}
 		
+		if(temp.equalsIgnoreCase("Magazine")) {
+			
+			type = ProductType.MAGAZINE;
+		}
+		
+		if(temp.equalsIgnoreCase("DVD")) {
+			
+			type = ProductType.DVD_MOVIE;
+		}
+
+		if(temp.equalsIgnoreCase("Download")) {
+	
+			type = ProductType.DOWNLOAD_MOVIE;
+		}
+				
 		switch(answer) {
 		
 		case "RENT":

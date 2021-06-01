@@ -42,7 +42,6 @@ public class ProductForRent extends Product implements Rentable{
 		String info = 
 				"\nCode: " + getCode() + 
 				"\nName: " + getName() + 
-				"\nUnits: " + getUnits() + 
 				"\nPrice: " + getPrice() + 
 				"\nType: " + getType();
 			
@@ -76,6 +75,4 @@ public class ProductForRent extends Product implements Rentable{
 		setState(State.RENTED);
 		setDevolutionDate(LocalDate.of(2021, 05, 8));
 	}
-	
-	
 }
